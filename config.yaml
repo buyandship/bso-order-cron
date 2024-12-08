@@ -1,0 +1,26 @@
+log:
+  rpc:
+    level: 1
+    file: "logs/bso-order-cron.log"
+client:
+  services:
+    - ordersrv:
+        addr: "bso-order-rpc:8687"
+    - couponsrv:
+        addr: "bso-coupon-rpc:9012"
+    - localizationsrv:
+        addr: "localizationsrv-rpc:8094"
+    - notificationsrv:
+        addr: "bso-notification-rpc:8998"
+    - paymentsrv:
+        addr: "bso-payment-rpc:8992"
+    - productpricingsrv:
+        addr: "product-pricing-service-rpc:8088"
+    - productsrv:
+        addr: "product-service-rpc:8086"
+    - usersrv:
+        addr: "bso-user-rpc:8988"
+    - logisticsrv:
+        addr: "bso-logistic-rpc:8332"
+    - adminsrv:
+        addr: "admin-service-rpc:8092"
