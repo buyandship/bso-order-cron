@@ -24,3 +24,5 @@ client:
         addr: "bso-logistic-rpc:8332"
     - adminsrv:
         addr: "admin-service-rpc:8092"
+create_shipment_order: "0 1 * * *"
+close_order: "0 0 * * *"

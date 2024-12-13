@@ -1,11 +1,11 @@
 package scheduler
 
 import (
+	"github.com/buyandship/bns-golib/config"
 	"github.com/buyandship/bso-order-cron/internal/jobs"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/go-co-op/gocron/v2"
 	"sync"
-	"time"
 )
 
 type Scheduler struct {
@@ -25,13 +25,25 @@ func NewScheduler() *Scheduler {
 
 		// add jobs
 		_, err = s.NewJob(
-			gocron.DurationJob(
-				5*time.Minute,
+			gocron.CronJob(
+				config.GlobalAppConfig.GetString("create_shipment_order"),
+				false,
 			),
 			gocron.NewTask(
-				jobs.CreateShipment,
+				jobs.CreateShipmentJob,
 			),
 		)
+
+		_, err = s.NewJob(
+			gocron.CronJob(
+				config.GlobalAppConfig.GetString("close_order"),
+				false,
+			),
+			gocron.NewTask(
+				jobs.CloseOrderJob,
+			),
+		)
+
 		instance = &Scheduler{
 			scheduler: s,
 		}
@@ -41,6 +53,7 @@ func NewScheduler() *Scheduler {
 
 func (s *Scheduler) Start() {
 	s.scheduler.Start()
+	klog.Infof("scheduler is started...")
 }
 
 func (s *Scheduler) Shutdown() error {
